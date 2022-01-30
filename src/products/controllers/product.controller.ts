@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -61,5 +62,13 @@ export class ProductController {
     @Param('id') id: string,
   ): Promise<Product> {
     return this.productService.update(id, product);
+  }
+
+  @ApiOkResponse({ description: 'Product delete success' })
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  async deleteById(@Param('id') id: string): Promise<void> {
+    return this.productService.deleteById(id);
   }
 }

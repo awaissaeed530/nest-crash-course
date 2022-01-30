@@ -46,4 +46,12 @@ export class ProductsService {
       throw new BadRequestException();
     }
   }
+
+  async deleteById(id: string): Promise<void> {
+    if (await this.existsById(id)) {
+      await this.productRepository.softDelete(id);
+    } else {
+      throw new NotFoundException();
+    }
+  }
 }
