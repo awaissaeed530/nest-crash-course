@@ -1,24 +1,22 @@
 import {
-  Body,
   Controller,
   Get,
   NotFoundException,
   Param,
-  Post,
   UseGuards,
 } from '@nestjs/common';
 import {
-  ApiCreatedResponse,
+  ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/gaurds';
-import { CreateUserDto } from '../dtos';
 import { User } from '../entities';
 import { UsersService } from '../services';
 
 @ApiTags('Users')
+@ApiBearerAuth()
 @Controller('users')
 export class UsersController {
   constructor(private readonly _userService: UsersService) {}
@@ -44,11 +42,5 @@ export class UsersController {
     } else {
       throw new NotFoundException(`User not found with id ${id}`);
     }
-  }
-
-  @ApiCreatedResponse({ type: User, description: 'User instance' })
-  @Post()
-  async create(@Body() userDto: CreateUserDto): Promise<User> {
-    return this._userService.create(userDto);
   }
 }

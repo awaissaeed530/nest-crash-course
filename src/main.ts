@@ -17,6 +17,7 @@ async function configureSwagger(app: INestApplication) {
     .setTitle('Nest API')
     .setDescription('Nest APIs practice application')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/', app, document);

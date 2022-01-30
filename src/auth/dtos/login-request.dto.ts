@@ -3,21 +3,11 @@ import {
   IsAlphanumeric,
   IsDefined,
   IsString,
-  MaxLength,
   MinLength,
 } from 'class-validator';
 
-export class CreateUserDto {
-  @ApiProperty({ minLength: 4, maxLength: 30 })
-  @MinLength(4)
-  @MaxLength(30)
-  @IsDefined()
-  @IsString()
-  name: string;
-
-  @ApiProperty({ minLength: 4, maxLength: 15 })
-  @MinLength(4)
-  @MaxLength(15)
+export class LoginRequestDto {
+  @ApiProperty()
   @IsDefined()
   @IsString()
   username: string;
