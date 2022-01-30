@@ -5,6 +5,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -12,9 +13,10 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreateUserDto } from './dtos/create-user.dto';
-import { User } from './entities/user.entity';
-import { UsersService } from './users.service';
+import { JwtAuthGuard } from 'src/auth/gaurds';
+import { CreateUserDto } from '../dtos';
+import { User } from '../entities';
+import { UsersService } from '../services';
 
 @ApiTags('Users')
 @Controller('users')
@@ -26,6 +28,7 @@ export class UsersController {
     isArray: true,
     description: 'Array of User instance',
   })
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<User[]> {
     return this._userService.findAll();
@@ -33,6 +36,7 @@ export class UsersController {
 
   @ApiOkResponse({ type: User, description: 'User instance' })
   @ApiNotFoundResponse({ description: 'User not found' })
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findById(@Param('id') id: string): Promise<User> {
     if (await this._userService.existsById(id)) {
@@ -42,8 +46,8 @@ export class UsersController {
     }
   }
 
-  @Post()
   @ApiCreatedResponse({ type: User, description: 'User instance' })
+  @Post()
   async create(@Body() userDto: CreateUserDto): Promise<User> {
     return this._userService.create(userDto);
   }
