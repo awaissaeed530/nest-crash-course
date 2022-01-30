@@ -11,7 +11,11 @@ export class UsersService {
   }
 
   async findById(id: string): Promise<User> {
-    return this.users.find((x) => x.id === id);
+    return this.users.find((user) => user.id === id);
+  }
+
+  async existsById(id: string): Promise<boolean> {
+    return this.users.findIndex((user) => user.id === id) > -1;
   }
 
   async create(userDto: CreateUserDto): Promise<User> {
