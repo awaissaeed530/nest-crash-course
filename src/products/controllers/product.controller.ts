@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -43,7 +44,11 @@ export class ProductController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findById(@Param('id') id: string): Promise<Product> {
-    return this.productService.findById(id);
+    if (await this.productService.existsById(id)) {
+      return this.productService.findById(id);
+    } else {
+      throw new NotFoundException(`Product not found with id ${id}`);
+    }
   }
 
   @ApiCreatedResponse({ type: Product, description: 'Product instance' })

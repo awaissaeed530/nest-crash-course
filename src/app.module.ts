@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
+import { GraphQLModule } from '@nestjs/graphql';
 
 @Module({
   imports: [
@@ -17,6 +18,12 @@ import { ProductsModule } from './products/products.module';
       database: 'remote_day',
       synchronize: true,
       autoLoadEntities: true,
+    }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: true,
+      playground: {
+        endpoint: 'graphql',
+      },
     }),
     UsersModule,
     ProductsModule,

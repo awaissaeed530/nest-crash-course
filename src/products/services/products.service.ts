@@ -20,11 +20,7 @@ export class ProductsService {
   }
 
   async findById(id: string): Promise<Product> {
-    if (await this.existsById(id)) {
-      return this.productRepository.findOne({ where: { id } });
-    } else {
-      throw new NotFoundException(`Product not found with id ${id}`);
-    }
+    return this.productRepository.findOne({ where: { id } });
   }
 
   async existsById(id: string): Promise<boolean> {
